@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "b63fd2be-5212-4060-a726-9fbeee6897f0",
+		"name": "Adify API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Retrieve advertisement",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/advertisement/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"advertisement",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create advertisement",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
