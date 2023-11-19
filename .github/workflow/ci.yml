@@ -1,0 +1,13 @@
+name: Adify-CI
+
+on: [push]
+
+jobs:
+  running_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+    steps:
+      - name: Set up envs
+        run: echo hello
