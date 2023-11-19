@@ -10,7 +10,7 @@ class AdvertiementView(APIView):
         ad = Ad.objects.filter(id=ad_id).get()
         return Response(AdSerializer(ad).data)
 
-    def put(self, request):
+    def post(self, request):
         title = request.data.get('title')
         content = request.data.get('content')
         if not title or not content:
