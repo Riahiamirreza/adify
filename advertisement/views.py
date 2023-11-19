@@ -5,4 +5,4 @@ from rest_framework.response import Response
 
 class AdvertiementView(APIView):
     def get(self, request):
-        ...
+        return Response(data={})
