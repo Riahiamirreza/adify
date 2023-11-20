@@ -7,3 +7,5 @@ class Ad(models.Model):
     title = models.CharField(max_length=255)
     content = models.CharField(max_length=1023)
     author = models.ForeignKey(User, null=True, on_delete=models.RESTRICT)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    modified_at = models.DateTimeField(auto_now=True)
