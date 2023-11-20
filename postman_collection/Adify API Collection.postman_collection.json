@@ -45,7 +45,46 @@
 			"response": []
 		},
 		{
+			"name": "List advertisements",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/advertisement/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"advertisement",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create comment",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Login user",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Create user",
 			"request": {
 				"method": "GET",
 				"header": []
