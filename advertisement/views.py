@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -9,6 +10,8 @@ from advertisement.serializers import AdSerializer
 
 
 class AdvertisementView(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, ad_id=None):
         try:
             if ad_id is None:
@@ -23,7 +26,6 @@ class AdvertisementView(APIView):
         except Exception as exc:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    # @login_required(login_url='/login')
     def post(self, request):
         title = request.data.get('title')
         content = request.data.get('content')
@@ -32,6 +34,7 @@ class AdvertisementView(APIView):
         ad = Ad()
         ad.title = title
         ad.content = content
+        ad.author = request.user
         ad.save()
         return Response(data={'id': ad.id}, status=201)
 
