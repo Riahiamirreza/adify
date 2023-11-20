@@ -5,10 +5,22 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from user.serializers import UserSerializer
+from user.models import User
 
 
 class UserView(APIView):
-    ...
+    def post(self, request):
+        try:
+            username = request.data.get('username')
+            password = request.data.get('password')
+            email = request.data.get('email')
+            if username and password and email:
+                user = User.objects.create_user(username=username, password=password, email=email)
+                return Response(status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except Exception as exc:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class LoginView(APIView):
     def post(self, request):
