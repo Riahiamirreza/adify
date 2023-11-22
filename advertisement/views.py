@@ -27,16 +27,19 @@ class AdvertisementView(APIView):
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def post(self, request):
-        title = request.data.get('title')
-        content = request.data.get('content')
-        if not title or not content:
-            return Response(status=400)
-        ad = Ad()
-        ad.title = title
-        ad.content = content
-        ad.author = request.user
-        ad.save()
-        return Response(data={'id': ad.id}, status=201)
+        try:
+            title = request.data.get('title')
+            content = request.data.get('content')
+            if not title or not content:
+                return Response(status=400)
+            ad = Ad()
+            ad.title = title
+            ad.content = content
+            ad.author = request.user
+            ad.save()
+            return Response(data={'id': ad.id}, status=201)
+        except Exception as exc:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def delete(self, request, ad_id):
         try:
