@@ -13,22 +13,25 @@ from user.models import User
 class TestGetAdvertisement(TestCase):
     @classmethod
     def setUp(cls):
-        Ad(id=1, title='title-1', content='content-1').save()
-        Ad(id=2, title='title-2', content='content-2').save()
+        cls.test_user_one = User.objects.create_user(username='un-1', password='123', email='a@a.a')
+        cls.test_user_two = User.objects.create_user(username='un-2', password='456', email='b@b.b')
+        cls.factory = APIRequestFactory()
+        Ad(id=1, title='title-1', content='content-1', author=cls.test_user_one).save()
+        Ad(id=2, title='title-2', content='content-2', author=cls.test_user_two).save()
 
     def test_get_advertisement(self):
-        factory = APIRequestFactory()
-        request = factory.get('/advertisement/x')
+        request = self.factory.get('/advertisement/x')
 
         response = AdvertisementView().get(request=request, ad_id=1)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['author']['username'], self.test_user_one.username)
 
         response = AdvertisementView().get(request=request, ad_id=2)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['author']['username'], self.test_user_two.username)
 
     def test_get_nonexistent_advertisement(self):
-        factory = APIRequestFactory()
-        request = factory.get('/advertisement/x')
+        request = self.factory.get('/advertisement/x')
 
         response = AdvertisementView().get(request=request, ad_id=123)  # does not exist
         self.assertEqual(response.status_code, 404)
