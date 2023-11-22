@@ -1,3 +1,5 @@
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -7,9 +9,7 @@ from comment.serializers import CommentSerializer
 
 
 class CommentView(APIView):
-    def get(self, request, comment_id=None):
-        comment = Comment.objects.filter(id=comment_id).get()
-        return Response(CommentSerializer(comment).data)
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         ad_id = request.data.get('ad_id')
@@ -18,5 +18,6 @@ class CommentView(APIView):
         comment = Comment()
         comment.ad = ad
         comment.content = content
+        comment.author = request.user
         comment.save()
         return Response(data={'id': comment.id}, status=201)

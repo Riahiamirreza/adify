@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -39,7 +39,13 @@ class AdvertisementView(APIView):
         return Response(data={'id': ad.id}, status=201)
 
     def delete(self, request, ad_id):
-        if not Ad.objects.filter(id=ad_id).exists():
-            return Response(status=404)
-        Ad.objects.filter(id=ad_id).delete()
-        return Response(status=200)
+        try:
+            if not (qs := Ad.objects.filter(id=ad_id)).exists():
+                return Response(status=404)
+            ad = qs.get()
+            if ad.author.id != request.user.id:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+            Ad.objects.filter(id=ad_id).delete()
+            return Response(status=200)
+        except Exception as exc:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
